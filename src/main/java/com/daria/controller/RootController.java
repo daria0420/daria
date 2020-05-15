@@ -85,7 +85,7 @@ public class RootController {
         boolean isSuccess = service.createTeacherAccount(teacherDO.getTeacherName(), teacherDO.getTeacherNumber(), teacherDO.getPassword());
 
         if (isSuccess) {
-            service.updateTeacherCirculation(teacherDO.getTeacherNumber(), 10);
+            service.updateCirculation(teacherDO.getTeacherNumber(), 10, "教师");
             response.setCodeMsg(CodeMsgUtil.REGISTER_SUCCESS);
         } else {
             response.setCodeMsg(CodeMsgUtil.REGISTER_FAIL); //注册失败
@@ -116,7 +116,7 @@ public class RootController {
         boolean isSuccess = service.createStudentAccount(studentDO.getStudentName(),studentDO.getStudentNumber(), studentDO.getPassword());
 
         if (isSuccess) {
-            service.updateStudentCirculation(studentDO.getStudentNumber(), 10);
+            service.updateCirculation(studentDO.getStudentNumber(), 10, "学生");
             response.setCodeMsg(CodeMsgUtil.REGISTER_SUCCESS); //注册成功的确认码
         } else {
             response.setCodeMsg(CodeMsgUtil.REGISTER_FAIL); //注册失败
@@ -130,8 +130,18 @@ public class RootController {
 
 //2、图书管理
 
-    //查看书架
+    //查看书架   /query_all_books
 
+
+    //查看图书的借阅情况  借阅率、借阅人的信息
+    @RequestMapping(value = "/library_information", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse<?> libraryInformation() {
+        BaseResponse<Object> response = new BaseResponse<>();
+        List<BorrowRecordVO> list = service.libraryInformation();
+        response.setCodeMsg(CodeMsgUtil.QUERY_UNCHECK_COURSE_SUCCESS, list);
+        return response;
+    }
     //上架图书
     @RequestMapping(value = "/add_book", method = RequestMethod.POST)
     @ResponseBody
@@ -173,20 +183,19 @@ public class RootController {
     }
 
 
-    //查看图书的借阅情况  借阅率、借阅人的信息
-    @RequestMapping(value = "/library_information", method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse<?> libraryInformation() {
-        BaseResponse<Object> response = new BaseResponse<>();
-//        List<CourseDO> list = service.querySchedule();
-//        response.setCodeMsg(CodeMsgUtil.QUERY_UNCHECK_COURSE_SUCCESS, list);
-        return response;
-    }
+
 
 //======================================================================================================================
 //3、班级管理
 
     //查看所有班级
+    @RequestMapping(value = "/query_classes", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse<?> queryClasses(@RequestBody StudentQuery studentQuery) {
+        BaseResponse<Object> response = new BaseResponse<>();
+        List<ClassesVO> list = service.queryClasses();
+        return response;
+    }
 
     //修改学生班级
     @RequestMapping(value = "/modification_class", method = RequestMethod.POST)
@@ -213,13 +222,13 @@ public class RootController {
 //4、课程管理
 
     //查询所有的课程
-    @RequestMapping(value = "/query_all_course",method = RequestMethod.GET)
+    @RequestMapping(value = "/query_all_course", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse<?> queryAllCourse() {
         BaseResponse<List<CourseDO>> response = new BaseResponse<>();
         List<CourseDO> list = service.queryAllCourse();
         response.setCodeMsg(CodeMsgUtil.QUERY_COURSE_SUCCESS, list);
-        
+
         return response;
     }
 

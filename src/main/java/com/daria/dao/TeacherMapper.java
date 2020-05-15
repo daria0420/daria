@@ -48,29 +48,30 @@ public interface TeacherMapper {
 
     //查询已借阅图书
     @Select("select * from book where bookId in(" +
-            "select bookId from teacherBorrowRecord where teacherNumber = #{teacherNumber})")
+            "select bookId from borrow_record where borrowerNumber = #{teacherNumber})")
     List<BookVO> queryBorrowedBooks(String teacherNumber);
 
 
     //获取当前借书数量
-    @Select("select borrowCount from teacherCirculation where teacherNumber = #{teacherNumber}")
+    @Select("select borrowCount from circulation where borrowerNumber = #{teacherNumber}")
     int getBorrowCount(String teacherNumber);
 
     //获取限制借书数量
-    @Select("select borrowLimit from teacherCirculation where teacherNumber = #{teacherNumber}")
+    @Select("select borrowLimit from circulation where borrowerNumber = #{teacherNumber}")
     int getBorrowLimit(String teacherNumber);
 
     //修改当前借书数量
-    @Update("update teacherCirculation set borrowCount = #{borrowCount} " +
-            "where teacherNumber = #{teacherNumber}")
-    int modifyCirculation(String teacherNumber, int borrowCount);
+    @Update("update circulation set borrowCount = #{borrowCount} " +
+            "where borrowerNumber = #{teacherNumber}")
+    int modifyCirculation(@Param("teacherNumber") String teacherNumber,
+                          @Param("borrowCount") int borrowCount);
 
     //借书  borrowRecord
-    @Insert("insert borrow_record(bookName, bookId, teacherName, teacherNumber, borrowTime, returnTime) " +
-            "values (#{bookName},#{bookId},#{teacherName},#{teacherNumber},#{borrowTime},#{returnTime})")
+    @Insert("insert borrow_record(bookName, bookId, borrowerType, borrowerName, borrowerNumber, borrowTime, returnTime) " +
+            "values (#{bookName},#{bookId},#{borrowerType},#{teacherName},#{teacherNumber},#{borrowTime},#{returnTime})")
     int borrowBook(@Param("bookName")String bookName,
                    @Param("bookId") int bookId,
-                   @Param("borrowerType") int borrowerType,
+                   @Param("borrowerType") String borrowerType,
                    @Param("teacherName")String teacherName,
                    @Param("teacherNumber") String teacherNumber,
                    @Param("borrowTime")String borrowTime,
@@ -78,7 +79,7 @@ public interface TeacherMapper {
 
 
     //还书
-    @Delete("delete from teacherBorrowRecord where teacherNumber = #{teacherNumber} and bookId = #{bookId}")
+    @Delete("delete from borrow_record where borrowerNumber = #{teacherNumber} and bookId = #{bookId}")
     int returnBook(@Param("teacherNumber") String teacherNumber,
                    @Param("bookId") int bookId);
 

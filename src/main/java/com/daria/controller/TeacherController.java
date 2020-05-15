@@ -192,7 +192,7 @@ public class TeacherController {
         String borrowTime = GetTimeUtil.getCurrentTime();
         String returnTime = GetTimeUtil.getReturnBookTime();
 
-        boolean isSuccess = teacherService.borrowBook(bookName, bookId, 0,
+        boolean isSuccess = teacherService.borrowBook(bookName, bookId, "教师",
                                                         teacherName, teacherNumber,
                                                         borrowTime, returnTime);
         if (isSuccess) { //借书成功

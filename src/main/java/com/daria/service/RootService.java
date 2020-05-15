@@ -1,5 +1,7 @@
 package com.daria.service;
 
+import com.daria.bean.BorrowRecordVO;
+import com.daria.bean.ClassesVO;
 import com.daria.bean.CourseDO;
 import com.daria.bean.Root;
 import com.daria.bean.vo.CourseVO;
@@ -16,24 +18,28 @@ public interface RootService {
     Root login(Root root);
 
     //创建教师账号
-    boolean createTeacherAccount(String tname, String teacherNumber, String passwd);
+    boolean createTeacherAccount(String teacherName, String teacherNumber, String password);
 
     //创建学生账号
-    boolean createStudentAccount(String sname, String studentNumber, String passwd);
+    boolean createStudentAccount(String studentName, String studentNumber, String password);
 
-    //更新教师借书信息表circulation
-    boolean updateTeacherCirculation(String teacherNumber, int num);
+    //更新借书信息表circulation
+    boolean updateCirculation(String teacherNumber, int num, String borrowerType);
 
-    //更新学生借书信息表circulation
-    boolean updateStudentCirculation(String studentNumber, int num);
+//    //更新学生借书信息表circulation
+//    boolean updateStudentCirculation(String studentNumber, int num);
 
     //添加图书
     boolean addBook(String bookName, String author, String publishingHouse,
                     String category, double price, String putTime, int remainderNumber);
 
+    //查看借阅人信息
+    List<BorrowRecordVO> libraryInformation();
+
     //删除图书
     boolean deleteBook(int bookId);
 
+    List<ClassesVO> queryClasses();
     //修改班级
     boolean modificationClass(String studentNumber, String classId);
 

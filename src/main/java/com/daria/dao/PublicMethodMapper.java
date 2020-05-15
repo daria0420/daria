@@ -34,6 +34,8 @@ public interface PublicMethodMapper {
     @Select("select * from teacher where teacherName = #{teacherName}")
     List<TeacherVO> queryTeacherWithName(String teacherName);
 
+
+//    =====================================================================================
     //查询所有图书
     @Select("select * from book")
     List<BookVO> queryAllBooks();

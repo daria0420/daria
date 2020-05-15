@@ -37,7 +37,7 @@ public interface TeacherService {
     boolean isOverLimit(String teacherNumber);
 
     //借书bookName, bookId, teacherName, teacherNumber, borrowTime
-    boolean borrowBook(String bookName, int bookId, int borrowerType, String teacherName,
+    boolean borrowBook(String bookName, int bookId, String borrowerType, String teacherName,
                        String teacherNumber, String borrowTime, String returnTime);
 
     //还书

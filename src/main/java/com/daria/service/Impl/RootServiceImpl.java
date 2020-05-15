@@ -1,5 +1,7 @@
 package com.daria.service.Impl;
 
+import com.daria.bean.BorrowRecordVO;
+import com.daria.bean.ClassesVO;
 import com.daria.bean.CourseDO;
 import com.daria.bean.Root;
 import com.daria.bean.vo.CourseVO;
@@ -28,8 +30,8 @@ public class RootServiceImpl implements RootService {
     }
 
     @Override
-    public boolean createTeacherAccount(String tname, String teacherNumber, String passwd) {
-        int isSuccess = rootMapper.createTeacherAccount(tname, teacherNumber, passwd);
+    public boolean createTeacherAccount(String teacherName, String teacherNumber, String password) {
+        int isSuccess = rootMapper.createTeacherAccount(teacherName, teacherNumber, password);
         if (isSuccess > 0) {
             return true;
         }
@@ -37,8 +39,8 @@ public class RootServiceImpl implements RootService {
     }
 
     @Override
-    public boolean createStudentAccount(String sname, String studentNumber, String passwd) {
-        int isSuccess = rootMapper.createStudentAccount(sname, studentNumber, passwd);
+    public boolean createStudentAccount(String studentName, String studentNumber, String password) {
+        int isSuccess = rootMapper.createStudentAccount(studentName, studentNumber, password);
         if (isSuccess > 0) {
             return true;
         }
@@ -46,22 +48,15 @@ public class RootServiceImpl implements RootService {
     }
 
     @Override
-    public boolean updateTeacherCirculation(String teacherNumber, int num) {
-        int isSuccess = rootMapper.updateTeacherCirculation(teacherNumber, num);
+    public boolean updateCirculation(String teacherNumber, int num, String borrowerType) {
+        int isSuccess = rootMapper.updateCirculation(teacherNumber, num, borrowerType);
         if (isSuccess > 0) {
             return true;
         }
         return false;
     }
 
-    @Override
-    public boolean updateStudentCirculation(String studentNumber, int num) {
-        int isSuccess = rootMapper.updateTeacherCirculation(studentNumber, num);
-        if (isSuccess > 0) {
-            return true;
-        }
-        return false;
-    }
+
 
     //管理员上架图书
     @Override
@@ -75,6 +70,11 @@ public class RootServiceImpl implements RootService {
         return false;
     }
 
+    @Override
+    public List<BorrowRecordVO> libraryInformation() {
+        return rootMapper.libraryInformation();
+    }
+
     //管理员下架图书
     @Override
     public boolean deleteBook(int bookId) {
@@ -83,6 +83,11 @@ public class RootServiceImpl implements RootService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<ClassesVO> queryClasses() {
+        return null;
     }
 
     @Override

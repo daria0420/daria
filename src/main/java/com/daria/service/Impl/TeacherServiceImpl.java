@@ -65,7 +65,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public boolean borrowBook(String bookName, int bookId, int borrowerType, String teacherName,  String teacherNumber, String borrowTime, String returnTime) {
+    public boolean borrowBook(String bookName, int bookId, String borrowerType, String teacherName,  String teacherNumber, String borrowTime, String returnTime) {
         int remainder_number = publicMethodMapper.getRemainder_number(bookId); //查询库存
         int borrowed_number = publicMethodMapper.getBorrowed_number(bookId);//获取借出的数量
         if (remainder_number > 0) {

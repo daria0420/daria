@@ -37,4 +37,13 @@ public class BaseResponse<T> {
         this.setCode(codeMsg.getCode());
         this.setData(data);
     }
+
+    @Override
+    public String toString() {
+        return "BaseResponse{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

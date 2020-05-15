@@ -1,5 +1,6 @@
 package com.daria.dao;
 
+import com.daria.bean.BorrowRecordVO;
 import com.daria.bean.CourseDO;
 import com.daria.bean.Root;
 import com.daria.bean.vo.CourseVO;
@@ -14,35 +15,38 @@ import java.util.List;
  * @Date 2020/3/26 -- 22:47
  */
 public interface RootMapper {
+
+//    ====================================账号管理===============================================
     //登录
-    @Select("select * from root where rname = #{rname} and passwd = #{passwd}")
-    Root login(@Param("rname") String rname, @Param("passwd") String passwd);
+    @Select("select * from root where rootName = #{rootName} and password = #{password}")
+    Root login(@Param("rootName") String rootName, @Param("password") String password);
 
     //创建教师账号
-    @Insert("insert teacher(tname,teacherNumber,passwd) values (#{tname},#{teacherNumber},#{passwd})")
-    int createTeacherAccount(@Param("tname") String tname,
+    @Insert("insert teacher(teacherName,teacherNumber,password) values (#{teacherName},#{teacherNumber},#{password})")
+    int createTeacherAccount(@Param("teacherName") String teacherName,
                              @Param("teacherNumber")String teacherNumber,
-                             @Param("passwd") String passwd);
+                             @Param("password") String password);
 
     //创建学生账号
-    @Insert("insert student(sname,studentNumber,passwd) values (#{sname},#{studentNumber},#{passwd})")
-    int createStudentAccount(@Param("tname") String sname,
+    @Insert("insert student(studentName,studentNumber,password) values (#{studentName},#{studentNumber},#{password})")
+    int createStudentAccount(@Param("studentName") String studentName,
                              @Param("studentNumber") String studentNumber,
-                             @Param("passwd") String passwd);
+                             @Param("password") String password);
 
+//    ====================================图书管理===============================================
 
-    //更新教师借书信息表circulation
-    @Insert("insert teachercirculation(teacherNumber,bookLimit) values(#{teacherNumber},#{bookLimit})")
-    int updateTeacherCirculation(@Param("teacherNumber") String teacherNumber,
-                              @Param("bookLimit") int num);
+    //更新借书信息表circulation
+    @Insert("insert circulation(borrowerNumber,bookLimit) values(#{teacherNumber},#{bookLimit})")
+    int updateCirculation(@Param("teacherNumber") String teacherNumber,
+                                 @Param("bookLimit") int num,
+                                 @Param("borrowerType") String borrowerType);
 
-    //更新学生借书信息表circulation
-    @Insert("insert teachercirculation(studentNumber,bookLimit) values(#{studentNumber},#{bookLimit})")
-    int updateStudentCirculation(@Param("studentNumber") String studentNumber,
-                              @Param("bookLimit") int num);
+    //查看借阅人信息
+    @Select("select * from borrow_record")
+    List<BorrowRecordVO> libraryInformation();
+
 
     //上架图书
-    //num存入剩余数量
     @Insert("insert book(bookName, author, publishingHouse, category, price, putTime, remainderNumber)" +
             " values (#{bookName},#{author},#{publishingHouse},#{category},#{price},#{putTime},#{remainderNumber})")
     int addBook(@Param("bookName")String bookName,
@@ -56,6 +60,12 @@ public interface RootMapper {
     //删除图书
     @Delete("delete from book where bookId = #{bookId}")
     int deleteBook(int bookId);
+
+
+//    ====================================班级管理===============================================
+
+    //
+
 
     //给教师添加班级、课程
 

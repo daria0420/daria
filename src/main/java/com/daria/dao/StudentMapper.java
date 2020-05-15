@@ -42,7 +42,7 @@ public interface StudentMapper {
 
     //查询已借阅图书
     @Select("select * from book where bookId in(" +
-            "select bookId from studentBorrowRecord where studentNumber = #{studentNumber})")
+            "select bookId from borrow_record where borrowerNumber = #{studentNumber})")
     List<BookVO> queryBorrowedBooks(String studentNumber);
 
     //获取当前借书数量
@@ -65,7 +65,7 @@ public interface StudentMapper {
             "values (#{bookName},#{bookId},#{borrowerType},#{studentName},#{studentNumber},#{borrowTime},#{returnTime})")
     int borrowBook(@Param("bookName") String bookName,
                    @Param("bookId") int bookId,
-                   @Param("borrowerType") int borrowerType,
+                   @Param("borrowerType") String borrowerType,
                    @Param("studentName") String studentName,
                    @Param("studentNumber") String studentNumber,
                    @Param("borrowTime")String borrowTime,
@@ -74,7 +74,7 @@ public interface StudentMapper {
 
 
     //还书
-    @Delete("delete from studentborrowrecord where studentNumber = #{studentNumber} and bookId = #{bookId}")
+    @Delete("delete from borrow_record where borrowerNumber = #{studentNumber} and bookId = #{bookId}")
     int returnBook(@Param("studentNumber") String studentNumber,
                    @Param("bookId") int bookId);
 
