@@ -219,6 +219,7 @@ public class RootController {
         BaseResponse<List<CourseDO>> response = new BaseResponse<>();
         List<CourseDO> list = service.queryAllCourse();
         response.setCodeMsg(CodeMsgUtil.QUERY_COURSE_SUCCESS, list);
+        
         return response;
     }
 
